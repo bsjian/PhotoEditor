@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--基本属性-->
+    <declare-styleable name="but">
+        <attr name="but_child"></attr>
+    </declare-styleable>
+</resources>
