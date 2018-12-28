@@ -18,9 +18,14 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.boshengjian.photoeditor.R;
+import com.boshengjian.photoeditor.utils.Configutils;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
@@ -149,14 +154,37 @@ public class CameraActivity extends AppCompatActivity {
         public void onPictureTaken(byte[] data, android.hardware.Camera camera) {
             if (data.length > 0){
                 try {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    iv.setImageBitmap(bitmap);
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                    iv.setImageBitmap(bitmap);
+                    saveSdcard(data);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
 
             }
         }
+    }
+
+    private void saveSdcard(byte[] data){
+        File dir = new File(Configutils.GalleryPath);
+        if (!dir.exists()) dir.mkdir();
+        try{
+            String picName = System.currentTimeMillis() + ".jpg";
+            File picFile = new File(dir, picName);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            FileOutputStream fo = new FileOutputStream(picFile);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fo);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bufferedOutputStream);
+
+            fo.flush();
+            fo.close();
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+            Toast.makeText(this, "successfully saved picture", Toast.LENGTH_SHORT);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     class MySurfaceCallBack implements SurfaceHolder.Callback{

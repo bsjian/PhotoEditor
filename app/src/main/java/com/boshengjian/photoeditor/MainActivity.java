@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.boshengjian.photoeditor.activities.CameraActivity;
+import com.boshengjian.photoeditor.activities.GalleryActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,12 +16,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = (Button) findViewById(R.id.btn1);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button camBtn = (Button) findViewById(R.id.btn1);
+        camBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
             }
         });
+        Button galleryBtn = (Button) findViewById(R.id.btn2);
+        galleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
+            }
+        });
+
     }
 }
